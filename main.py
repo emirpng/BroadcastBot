@@ -33,7 +33,7 @@ async def _(bot, cmd):
 @Bot.on_message(filters.command("start") & filters.group)
 async def startgroup(client, message):
     # return
-    chat_id = message.from_user.id
+    chat_id = message.chat.id
     if not await db.is_user_exist(chat_id):
         data = await client.get_me()
         BOT_USERNAME = data.username
