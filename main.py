@@ -38,43 +38,9 @@ async def startgroup(client, message):
         data = await client.get_me()
         BOT_USERNAME = data.username
         await db.add_group(chat_id)
-        if LOG_CHANNEL:
-            await client.send_message(
-                LOG_CHANNEL,
-                f"#NEWGROUP: \n\nNew Group [{message.from_user.first_name}](tg://group?id={message.from_user.id}) started @{BOT_USERNAME} !!",
-            )
-        else:
-            logging.info(f"#NewGroup :- Name : {message.from_user.first_name} ID : {message.from_user.id}")
-    joinButton = InlineKeyboardMarkup(
-        [
-            [
-                InlineKeyboardButton("CHANNEL", url="https://t.me/nacbots"),
-                InlineKeyboardButton(
-                    "SUPPORT GROUP", url="https://t.me/n_a_c_bot_developers"
-                ),
-            ]
-        ]
-    )
+        
     raise StopPropagation
 
-
-@Bot.on_message(filters.command("settings"))
-async def opensettings(bot, cmd):
-    group_id = cmd.from_user.id
-    await cmd.reply_text(
-        f"`Here You Can Set Your Settings:`\n\nSuccessfully setted notifications to **{await db.get_notif(group_id)}**",
-        reply_markup=InlineKeyboardMarkup(
-            [
-                [
-                    InlineKeyboardButton(
-                        f"NOTIFICATION  {'🔔' if ((await db.get_notif(group_id)) is True) else '🔕'}",
-                        callback_data="notifon",
-                    )
-                ],
-                [InlineKeyboardButton("❎", callback_data="closeMeh")],
-            ]
-        ),
-    )
 
 
 @Bot.on_message(filters.private & filters.command("broadcast"))
@@ -94,7 +60,7 @@ async def sts(c, m):
         await m.delete()
         return
     await m.reply_text(
-        text=f"**Total Groups in Database 📂:** `{await db.total_groups_count()}`\n\n**Total Groups with Notification Enabled 🔔 :** `{await db.total_notif_groups_count()}`",
+        text=f"**Kayıtlı Toplam Grup 📂:** `{await db.total_groups_count()}`\n\n**Bildirim Aktifleştirilmiş 🔔 :** `{await db.total_notif_groups_count()}`",
         quote=True
     )
 
@@ -106,7 +72,7 @@ async def ban(c, m):
         return
     if len(m.command) == 1:
         await m.reply_text(
-            f"Use this command to ban 🛑 any group from the bot 🤖.\n\nUsage:\n\n`/ban_group group_id ban_duration ban_reason`\n\nEg: `/ban_group 1234567 28 You misused me.`\n This will ban group with id `1234567` for `28` days for the reason `You misused me`.",
+            f"Bu komut grubu bottan yasaklayacaktır.\n\n**Kullanım:*\n /ban_group {grupid} {süre} {sebep}\nÖrnek: /ban_group 1234567 28 beni kötüye kullandınız.\n\nBu grubu yasaklar ^beni kötüye kullandınız^ sebebiyle 28 gün boyunca 1234567 kimlikli",
             quote=True,
         )
         return
