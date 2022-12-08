@@ -34,11 +34,11 @@ async def send_msg(group_id, message):
         await asyncio.sleep(e.x)
         return send_msg(group_id, message)
     except InputGroupDeactivated:
-        return 400, f"{group_id} : deactivated\n"
+        return 400, f"{group_id} : devre dışı bırakıldı\n"
     except GroupIsBlocked:
-        return 400, f"{group_id} : blocked the bot\n"
+        return 400, f"{group_id} : botu engelledi\n"
     except PeerIdInvalid:
-        return 400, f"{group_id} : group id invalid\n"
+        return 400, f"{group_id} : grup kimliği geçersiz\n"
     except Exception:
         return 500, f"{group_id} : {traceback.format_exc()}\n"
 
@@ -51,7 +51,7 @@ async def broadcast(m, db):
         if not broadcast_ids.get(broadcast_id):
             break
     out = await m.reply_text(
-        text=f"Broadcast Started! You will be notified with log file when all the groups are notified."
+        text=f"Yayın Başlatıldı! Tüm gruplar bilgilendirildiğinde günlük dosyası ile bilgilendirileceksiniz."
     )
     start_time = time.time()
     total_groups = await db.total_groups_count()
@@ -86,13 +86,13 @@ async def broadcast(m, db):
     await out.delete()
     if failed == 0:
         await m.reply_text(
-            text=f"broadcast completed in `{completed_in}`\n\nTotal groups {total_groups}.\nTotal done {done}, {success} success and {failed} failed.",
+            text=f"Yayın `{completed_in}` içinde tamamlandı.\n\nToplam Grup: {total_groups}.\nToplam Yayın: {done}, {success} başarılı ve {failed} başarısız.",
             quote=True,
         )
     else:
         await m.reply_document(
             document="broadcast.txt",
-            caption=f"broadcast completed in `{completed_in}`\n\nTotal groups {total_groups}.\nTotal done {done}, {success} success and {failed} failed.",
+            caption=f"Yayın `{completed_in}` içinde tamamlandı.\n\nToplam Grup: {total_groups}.\nToplam Yayın: {done}, {success} başarılı ve {failed} başarısız.",
             quote=True,
         )
     os.remove("broadcast.txt")
