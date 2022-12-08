@@ -41,10 +41,10 @@ async def startgroup(client, message):
         if LOG_CHANNEL:
             await client.send_message(
                 LOG_CHANNEL,
-                f"#NEWGROUP: \n\nNew Group [{message.from_group.first_name}](tg://group?id={message.from_group.id}) started @{BOT_USERNAME} !!",
+                f"#NEWGROUP: \n\nNew Group [{message.from_user.first_name}](tg://group?id={message.from_user.id}) started @{BOT_USERNAME} !!",
             )
         else:
-            logging.info(f"#NewGroup :- Name : {message.from_group.first_name} ID : {message.from_group.id}")
+            logging.info(f"#NewGroup :- Name : {message.from_user.first_name} ID : {message.from_user.id}")
     joinButton = InlineKeyboardMarkup(
         [
             [
@@ -60,7 +60,7 @@ async def startgroup(client, message):
 
 @Bot.on_message(filters.command("settings"))
 async def opensettings(bot, cmd):
-    group_id = cmd.from_group.id
+    group_id = cmd.from_user.id
     await cmd.reply_text(
         f"`Here You Can Set Your Settings:`\n\nSuccessfully setted notifications to **{await db.get_notif(group_id)}**",
         reply_markup=InlineKeyboardMarkup(
@@ -79,7 +79,7 @@ async def opensettings(bot, cmd):
 
 @Bot.on_message(filters.private & filters.command("broadcast"))
 async def broadcast_handler_open(_, m):
-    if m.from_group.id not in AUTH_USERS:
+    if m.from_user.id not in AUTH_USERS:
         await m.delete()
         return
     if m.reply_to_message is None:
@@ -90,7 +90,7 @@ async def broadcast_handler_open(_, m):
 
 @Bot.on_message(filters.private & filters.command("stats"))
 async def sts(c, m):
-    if m.from_group.id not in AUTH_USERS:
+    if m.from_user.id not in AUTH_USERS:
         await m.delete()
         return
     await m.reply_text(
@@ -101,7 +101,7 @@ async def sts(c, m):
 
 @Bot.on_message(filters.private & filters.command("ban_group"))
 async def ban(c, m):
-    if m.from_group.id not in AUTH_USERS:
+    if m.from_user.id not in AUTH_USERS:
         await m.delete()
         return
     if len(m.command) == 1:
@@ -141,7 +141,7 @@ async def ban(c, m):
 
 @Bot.on_message(filters.private & filters.command("unban_group"))
 async def unban(c, m):
-    if m.from_group.id not in AUTH_USERS:
+    if m.from_user.id not in AUTH_USERS:
         await m.delete()
         return
     if len(m.command) == 1:
@@ -176,7 +176,7 @@ async def unban(c, m):
 
 @Bot.on_message(filters.private & filters.command("banned_groups"))
 async def _banned_usrs(c, m):
-    if m.from_group.id not in AUTH_USERS:
+    if m.from_user.id not in AUTH_USERS:
         await m.delete()
         return
     all_banned_groups = await db.get_all_banned_groups()
@@ -201,9 +201,9 @@ async def _banned_usrs(c, m):
 
 @Bot.on_callback_query()
 async def callback_handlers(bot: Client, cb: CallbackQuery):
-    group_id = cb.from_group.id
+    group_id = cb.from_user.id
     if cb.data == "notifon":
-        notif = await db.get_notif(cb.from_group.id)
+        notif = await db.get_notif(cb.from_user.id)
         if notif is True:
             await db.set_notif(group_id, notif=False)
         else:
