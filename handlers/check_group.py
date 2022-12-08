@@ -23,10 +23,10 @@ async def handle_group_status(bot, cmd):
         if LOG_CHANNEL:
             await bot.send_message(
                 LOG_CHANNEL,
-                f"#NEWGROUP: \n\nNew Group [{cmd.from_group.first_name}](tg://group?id={cmd.from_group.id}) started @{BOT_USERNAME} !!",
+                f"#NEWGROUP: \n\nNew Group [{cmd.from_user.first_name}](tg://group?id={cmd.from_user.id}) started @{BOT_USERNAME} !!",
             )
         else:
-            logging.info(f"#NewGroup :- Name : {cmd.from_group.first_name} ID : {cmd.from_group.id}")
+            logging.info(f"#NewGroup :- Name : {cmd.from_user.first_name} ID : {cmd.from_user.id}")
 
     ban_status = await db.get_ban_status(chat_id)
     if ban_status["is_banned"]:
