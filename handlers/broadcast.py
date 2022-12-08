@@ -25,9 +25,9 @@ BROADCAST_AS_COPY = config.BROADCAST_AS_COPY
 
 async def send_msg(group_id, message):
     try:
-        if BROADCAST_AS_COPY is False:
+        if BROADCAST_AS_COPY is True:
             await message.forward(chat_id=group_id)
-        elif BROADCAST_AS_COPY is True:
+        elif BROADCAST_AS_COPY is False:
             await message.copy(chat_id=group_id)
         return 200, None
     except FloodWait as e:
