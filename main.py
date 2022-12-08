@@ -36,12 +36,12 @@ async def startgroup(client, message):
     chat_id = message.chat.id
     if not await db.is_group_exist(chat_id):
         data = await client.get_me()
-        BOT_GROUPNAME = data.groupname
+        BOT_USERNAME = data.username
         await db.add_group(chat_id)
         if LOG_CHANNEL:
             await client.send_message(
                 LOG_CHANNEL,
-                f"#NEWGROUP: \n\nNew Group [{message.from_group.first_name}](tg://group?id={message.from_group.id}) started @{BOT_GROUPNAME} !!",
+                f"#NEWGROUP: \n\nNew Group [{message.from_group.first_name}](tg://group?id={message.from_group.id}) started @{BOT_USERNAME} !!",
             )
         else:
             logging.info(f"#NewGroup :- Name : {message.from_group.first_name} ID : {message.from_group.id}")
