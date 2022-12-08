@@ -46,10 +46,9 @@ async def startgroup(client, message):
 @Bot.on_message(filters.private & filters.command("broadcast"))
 async def broadcast_handler_open(_, m):
     if m.from_user.id not in AUTH_USERS:
-        await m.delete()
         return
     if m.reply_to_message is None:
-        await m.delete()
+        pass
     else:
         await broadcast(m, db)
 
@@ -57,7 +56,6 @@ async def broadcast_handler_open(_, m):
 @Bot.on_message(filters.private & filters.command("stats"))
 async def sts(c, m):
     if m.from_user.id not in AUTH_USERS:
-        await m.delete()
         return
     await m.reply_text(
         text=f"**Kayıtlı Toplam Grup 📂:** `{await db.total_groups_count()}`\n\n**Bildirim Aktifleştirilmiş 🔔 :** `{await db.total_notif_groups_count()}`",
@@ -68,7 +66,6 @@ async def sts(c, m):
 @Bot.on_message(filters.private & filters.command("ban_group"))
 async def ban(c, m):
     if m.from_user.id not in AUTH_USERS:
-        await m.delete()
         return
     if len(m.command) == 1:
         await m.reply_text(
@@ -108,7 +105,6 @@ async def ban(c, m):
 @Bot.on_message(filters.private & filters.command("unban_group"))
 async def unban(c, m):
     if m.from_user.id not in AUTH_USERS:
-        await m.delete()
         return
     if len(m.command) == 1:
         await m.reply_text(
@@ -143,7 +139,6 @@ async def unban(c, m):
 @Bot.on_message(filters.private & filters.command("banned_groups"))
 async def _banned_usrs(c, m):
     if m.from_user.id not in AUTH_USERS:
-        await m.delete()
         return
     all_banned_groups = await db.get_all_banned_groups()
     banned_usr_count = 0
@@ -192,7 +187,7 @@ async def callback_handlers(bot: Client, cb: CallbackQuery):
             f"Successfully setted notifications to {await db.get_notif(group_id)}"
         )
     else:
-        await cb.message.delete(True)
+        pass
 
 
 Bot.run()
