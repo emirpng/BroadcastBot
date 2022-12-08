@@ -33,9 +33,9 @@ async def send_msg(group_id, message):
     except FloodWait as e:
         await asyncio.sleep(e.x)
         return send_msg(group_id, message)
-    except InputGroupDeactivated:
+    except InputUserDeactivated:
         return 400, f"{group_id} : devre dışı bırakıldı\n"
-    except GroupIsBlocked:
+    except UserIsBlocked:
         return 400, f"{group_id} : botu engelledi\n"
     except PeerIdInvalid:
         return 400, f"{group_id} : grup kimliği geçersiz\n"
