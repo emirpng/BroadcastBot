@@ -14,19 +14,19 @@ LOG_CHANNEL = config.LOG_CHANNEL
 
 db = Database(DB_URL, DB_NAME)
 
-async def handle_user_status(bot, cmd):
+async def handle_group_status(bot, cmd):
     chat_id = cmd.chat.id
-    if not await db.is_user_exist(chat_id):
+    if not await db.is_group_exist(chat_id):
         data = await bot.get_me()
-        BOT_USERNAME = data.username
-        await db.add_user(chat_id)
+        BOT_GROUPNAME = data.groupname
+        await db.add_group(chat_id)
         if LOG_CHANNEL:
             await bot.send_message(
                 LOG_CHANNEL,
-                f"#NEWUSER: \n\nNew User [{cmd.from_user.first_name}](tg://user?id={cmd.from_user.id}) started @{BOT_USERNAME} !!",
+                f"#NEWGROUP: \n\nNew Group [{cmd.from_group.first_name}](tg://group?id={cmd.from_group.id}) started @{BOT_GROUPNAME} !!",
             )
         else:
-            logging.info(f"#NewUser :- Name : {cmd.from_user.first_name} ID : {cmd.from_user.id}")
+            logging.info(f"#NewGroup :- Name : {cmd.from_group.first_name} ID : {cmd.from_group.id}")
 
     ban_status = await db.get_ban_status(chat_id)
     if ban_status["is_banned"]:
