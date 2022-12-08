@@ -51,7 +51,7 @@ async def broadcast(m, db):
         if not broadcast_ids.get(broadcast_id):
             break
     out = await m.reply_text(
-        text=f"Yayın Başlatıldı! Tüm gruplar bilgilendirildiğinde günlük dosyası ile bilgilendirileceksiniz."
+        text=f"🦈⚡️ Yayın Başlatıldı! Tüm gruplar bilgilendirildiğinde günlük dosyası ile bilgilendirileceksiniz."
     )
     start_time = time.time()
     total_groups = await db.total_groups_count()
@@ -86,13 +86,13 @@ async def broadcast(m, db):
     await out.delete()
     if failed == 0:
         await m.reply_text(
-            text=f"Yayın `{completed_in}` içinde tamamlandı.\n\nToplam Grup: {total_groups}.\nToplam Yayın: {done}, {success} başarılı ve {failed} başarısız.",
+            text=f"🦈⚡️ Yayın `{completed_in}` içinde tamamlandı.\n\nToplam Grup: {total_groups}.\nToplam Yayın: {done}, {success} başarılı ve {failed} başarısız.",
             quote=True,
         )
     else:
         await m.reply_document(
             document="broadcast.txt",
-            caption=f"Yayın `{completed_in}` içinde tamamlandı.\n\nToplam Grup: {total_groups}.\nToplam Yayın: {done}, {success} başarılı ve {failed} başarısız.",
+            caption=f"🦈⚡️ Yayın `{completed_in}` içinde tamamlandı.\n\nToplam Grup: {total_groups}.\nToplam Yayın: {done}, {success} başarılı ve {failed} başarısız.",
             quote=True,
         )
     os.remove("broadcast.txt")
