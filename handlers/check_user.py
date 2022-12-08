@@ -15,7 +15,7 @@ LOG_CHANNEL = config.LOG_CHANNEL
 db = Database(DB_URL, DB_NAME)
 
 async def handle_user_status(bot, cmd):
-    chat_id = cmd.from_user.id
+    chat_id = cmd.chat.id
     if not await db.is_user_exist(chat_id):
         data = await bot.get_me()
         BOT_USERNAME = data.username
