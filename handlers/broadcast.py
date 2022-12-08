@@ -13,7 +13,7 @@ from pyrogram.errors import (
     FloodWait,
     InputUserDeactivated,
     PeerIdInvalid,
-    UsersIsBlocked,
+    UserIsBlocked,
 )
 
 import config
