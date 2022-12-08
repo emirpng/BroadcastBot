@@ -11,7 +11,7 @@ import traceback
 import aiofiles
 from pyrogram.errors import (
     FloodWait,
-    InputGroupDeactivated,
+    InputUserDeactivated,
     PeerIdInvalid,
     UsersIsBlocked,
 )
